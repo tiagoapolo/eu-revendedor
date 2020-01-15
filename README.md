@@ -30,6 +30,11 @@ Rode o App (PORTA 3000):
 `$ npm start`
 
 
+Credenciais usuário teste:
+
+- tiagoapolo@gmail.com
+- teste
+
 
 ## Backend
 
