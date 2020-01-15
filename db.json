@@ -1,12 +1,5 @@
 {
   "users": [
-    {
-      "id": "910a0715-0cec-4fdf-92c6-4de583003f92",
-      "name": "Tiago Lopes de Paiva",
-      "cpf": "12312312",
-      "email": "tiagoapolo@gmail.com",
-      "password": "teste"
-    }
   ],
   "status": [
     {
