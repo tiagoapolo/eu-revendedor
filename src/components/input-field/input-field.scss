@@ -1,0 +1,96 @@
+@import "../../variables.scss";
+
+
+
+
+.InputField {
+  
+  $bg-color: #000;
+  $hl-color:  #0d776f,;
+  $muted-color: black;// mix(white, $bg-color, 70%);
+  $trans-time: 300ms;
+  $width: 100%;
+  
+  padding-top: 15px;
+  width: $width;
+
+  .container {
+
+    position: relative;
+    width: $width;
+
+    .highlight{
+      width: $width;
+    }
+    
+    input,
+    textarea {    
+
+      background: none;
+      width: inherit;
+      color: #000;
+      font-size: 18px;
+      padding: 10px 0px 10px 0px;
+      border: none;
+      border-radius: 0;
+      border-bottom: 1px solid $muted-color;
+      &:focus {
+        outline: none;
+      }
+      &:focus ~ label,
+      &:valid ~ label {
+        color: $hl-color;
+      }
+      &:not(:focus) ~ label {
+        color: $muted-color;
+      }
+      &:invalid ~ label { 
+        color: color('danger', 'base')
+      }
+      &:focus ~ .bar:before {
+        width: $width;
+      }
+      &:invalid ~ .bar:before {
+        background: color('danger', 'base')
+      }
+      &:disabled {
+        cursor: not-allowed;
+        background: #a0a0a021;
+      }
+    }
+    
+    input[type="password"] {
+      letter-spacing: 0.3em;
+    }
+    
+    label {
+      color: $muted-color;
+      text-transform: capitalize;
+      font-size: 16px;
+      font-weight: normal;
+      position: absolute;
+      pointer-events: none;
+      left: 5px;
+      // top: 10px;
+      top: -14px;
+      font-size: 12px;
+      transition: $trans-time ease all;
+    }
+    
+    .bar {
+      position: relative;
+      display: block;
+      width: $width;
+      &:before {
+        content: '';
+        height: 2px;
+        width: 0;
+        bottom: 0px;
+        position: absolute;
+        background: $hl-color;
+        transition: $trans-time ease all;
+        left: 0%;
+      }
+    }  
+  }
+}

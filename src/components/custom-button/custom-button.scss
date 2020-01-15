@@ -1,0 +1,62 @@
+@import "../../variables.scss";
+
+
+.CustomButton {
+
+  width: 100%;
+  border-radius: 290486px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  height: 46px;
+  text-transform: capitalize;
+  outline: none;
+  background-color: #9e9e9e;
+  border-color: transparent;
+  outline: none;
+  border: none;
+  cursor: not-allowed;
+
+  &:not(:disabled){
+    cursor: pointer;
+  }
+  &.primary:not(:disabled) {
+    background-color: color('primary', 'base');
+  }
+  &.warning:not(:disabled) {
+    background-color: #ffa726;
+  }
+  &.secondary:not(:disabled) {
+    background-color: #212121;
+    border-color: transparent;
+  }
+  &.danger:not(:disabled) {
+    background-color: color('danger', 'light');
+  }
+  &.gradient:not(:disabled) {
+    background-image: linear-gradient(to right, #0d776f, #52a772);
+  }  
+  &.primary:active:not(:disabled) {
+    background-color: #56a23c;
+    border-color: transparent;
+  }
+  &.secondary:active:not(:disabled) {
+    background-color: #131313;
+    border-color: transparent;
+  }
+  &.warning:active:not(:disabled) {
+    background-color: #d88c1e;
+    border-color: transparent;
+  }
+  &.danger:active:not(:disabled) {
+    background-color: color("danger", "dark");
+    border-color: transparent;
+  }
+  &.gradient:active:not(:disabled) {
+    background-image: linear-gradient(to right, #0b5a54, #469062);
+  }
+
+
+}
+
+// .CustomButton

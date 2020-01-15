@@ -1,0 +1,55 @@
+@import "../../variables.scss";
+
+.NewPurchase {
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #f8f6f7;
+  // align-items: center;
+
+  .form-container{
+    
+    flex-direction: column;
+    display: flex;
+    flex: 1;
+    padding: 2rem;
+    padding-top: 50px;
+    justify-content: center;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: -1px 0px 5px 0px #00000036;
+
+  }
+
+
+  p.cancel {
+    color: color('primary', 'dark');
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .CustomButton {
+    height: 38px;
+  }
+
+}
+
+
+@media (min-width: 768px) {
+  .NewPurchase {
+  
+    .form-container {
+      padding: 2rem;
+
+
+      // width: 60px;
+    //   flex: unset;
+    //   padding: 2rem;
+    //   height: auto;
+      // margin: auto;
+    //   border-radius: 10px;
+    //   box-shadow:  -1px 0px 5px 0px #00000036;
+    }
+  }
+}

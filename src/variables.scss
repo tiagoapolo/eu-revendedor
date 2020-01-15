@@ -1,0 +1,55 @@
+$app-pallete: (
+  'primary': (
+    'base': #6ac74b,
+    'light': #8dcb78,
+    'dark': #526753,
+    'darker': #2c6d57,
+  ),
+  'danger':(
+    'base': #e53935,
+    'light': #e53935,
+    'dark': #c62828,
+  ),
+  'warning': (
+    'base': #d98328,
+    'light': #dd8f3d,
+    'dark': #c57623
+  ),
+  'secondary': (
+    'base': #5a1321,
+    'light': #7b1a2d,
+    'dark': #51111e
+  ),
+  'foreground': (
+    'base': #191919,
+    'light': #f4f6f7,
+    'dark': #111111,
+    'darker': #000000
+  ),
+  'background': (
+    'base': #e9e9e9,
+    'light': #ffffff,
+    'dark': #dddddd
+  )
+);
+
+@function color($color,$tone){
+
+  @warn map-get($app-pallete,$color);
+
+  @if map-has-key($app-pallete,$color){
+      $color: map-get($app-pallete,$color);
+
+          @if map-has-key($color,$tone){
+              $tone: map-get($color,$tone);
+              @return $tone;
+          }
+
+          @warn "unknown tone `#{$tone}` in color";
+          @return null;        
+  }
+
+  @warn "unknown color `#{$color}` in palette";
+  @return null;
+ 
+};

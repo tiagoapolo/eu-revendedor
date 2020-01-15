@@ -1,0 +1,19 @@
+.Login {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .container{
+    width: 90%;
+    margin: auto;
+  }
+
+}
+
+@media (min-width: 600px) {
+  .Login {    
+    .container{
+      max-width: 480px;
+    }
+  }
+}

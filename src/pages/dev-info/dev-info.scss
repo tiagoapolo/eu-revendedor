@@ -1,0 +1,45 @@
+.DevInfo {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .back{
+    padding-left: 1rem;
+  }
+
+  .container{
+    width: 90%;
+    margin: auto;
+
+    text-align: left;
+    
+
+    .liner {
+      height: 1px;
+      background-color: #000;
+      width: 100px;
+    }
+
+    .links{
+      display: flex;
+      flex-direction: column;
+      
+      a {
+        margin-bottom: .5rem;
+      }
+
+
+
+    }
+
+  }
+
+}
+
+@media (min-width: 600px) {
+  .DevInfo {    
+    .container{
+      max-width: 480px;
+    }
+  }
+}

@@ -1,0 +1,32 @@
+@import "../../variables.scss";
+
+.UserForm {
+
+  display: flex;
+  flex-direction: column;
+
+  h2{
+    text-align: center;
+    font-weight: 400;
+    margin-top: 0;
+    color: color('primary', 'dark');
+  }
+
+  form {
+
+    .InputField:nth-child(7) {
+      margin-bottom: 1rem;
+    }
+
+    #feedback {
+      min-height: 25px;
+      padding-top: 5px;
+      font-size: 14px;
+      text-align: right;
+      padding-right: 12px;
+      color: color('danger', 'light');
+    }    
+
+  }
+
+}

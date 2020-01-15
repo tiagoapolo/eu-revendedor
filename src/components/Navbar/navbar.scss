@@ -1,0 +1,57 @@
+.Navbar {
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  align-items: flex-end;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  color: #fff;
+  background: #212121;
+
+  .action {
+
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .contact {
+      display: none;
+    }
+
+
+    .logout {
+      display: flex;
+      flex-direction: row;
+
+      cursor: pointer;
+      text-align: right;
+      // margin-bottom: 10px;
+
+      .fa-sign-out-alt {
+        margin-left: 10px;
+      }
+    }
+  }
+
+}
+
+@media (min-width: 360px) {
+  .Navbar {
+  
+    .action {
+
+
+      .contact {
+        display: initial;
+        width: initial;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+    }
+  }
+}

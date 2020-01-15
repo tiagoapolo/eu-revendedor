@@ -1,68 +1,106 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Eu revendedor App
 
-## Available Scripts
+O app consiste em um um sistema para seus revendedores(as) cadastrarem suas compras e acompanhar o retorno de cashback de cada um.
 
-In the project directory, you can run:
+App: [https://eurevendedor.herokuapp.com/](https://eurevendedor.herokuapp.com/)
 
-### `npm start`
+Contato: tiagoapolo@gmail.com
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### Pré-requisitos
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- Node.JS (12.x) => [**Instalação**](https://nodejs.org/en/download/)
+- NPM (6.x)
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Passos para rodar localmente
 
-### `npm run build`
+Instale os pacotes necessários:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`$ npm i`
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Rode o servidor de backend (PORTA 8888):
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`$ npm run server`
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Rode o App (PORTA 3000):
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`$ npm start`
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Backend
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Porta em uso: 8888
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Rotas
 
-### Code Splitting
+Autentica o usuário
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+- POST /api/auth:
 
-### Analyzing the Bundle Size
+  - body: { email, password } 
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+Retorna o saldo do cashback
 
-### Making a Progressive Web App
+- GET /api/cashback:
+  
+  - query: cpf
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Retorna compras de um usuário (user_id)
 
-### Advanced Configuration
+- GET /api/purchases:
+  
+  - query: user_id
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Deployment
+Retorna o saldo do cashback
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+- GET /api/purchases:
+  
+  - query: user_id
 
-### `npm run build` fails to minify
+Retorna a lista de status disponíveis
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- GET /api/status:
+  
+
+Retorna compras de um usuário (user_id)
+
+- GET /api/purchases:
+  
+  - query: user_id
+
+Registra compra de um usuário
+
+- POST /api/purchases:
+  
+  - body: 
+      - id
+      - user_id
+      - value
+      - date
+      - cashback_percentage
+      - cashback
+      - status  
+
+Edita compra de um usuário
+
+- PUT /api/purchases/:id :
+
+  - params: id
+  
+  - body: 
+      - id
+      - user_id
+      - value
+      - date
+      - cashback_percentage
+      - cashback
+      - status  
+
+Deleta a compra de um usuário
+
+- DELETE /api/purchases/:id
+
+  - params: id

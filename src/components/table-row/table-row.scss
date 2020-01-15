@@ -1,0 +1,17 @@
+.TableRow {
+
+  border: 1px solid #EEEEEE;
+  border-left: none;
+  border-right: none;
+  justify-content: space-between;
+  cursor: pointer;
+
+  td {
+    padding: 1rem;
+
+  }
+
+  td:not(:first-child) {
+    padding: 1rem;
+  }
+}

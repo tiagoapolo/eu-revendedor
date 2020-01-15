@@ -1,0 +1,37 @@
+.TableHeader {
+
+  background-color: #f9f8f8;
+  border: 1px solid #f9f8f8;
+  border-top: 1px solid #E0E0E0;
+  border-left: none;
+  border-right: none;
+
+  tr {
+
+    th {
+      padding: 1rem;    
+      
+      input {
+        cursor: pointer;
+      }
+
+      span {
+        cursor: pointer;
+
+        i {
+          margin-left: 5px;
+        }
+
+      }
+      
+    }
+
+    th:not(input) {
+      font-weight: normal;
+      padding: 1rem;
+      text-transform: capitalize;
+
+    }
+
+  }
+}

@@ -1,0 +1,32 @@
+@import "../../variables.scss";
+
+.Signup {
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  // align-items: center;
+
+  .container{
+    width: 80%;
+    margin: auto;
+  }
+
+  p.cancel {
+    color: color('primary', 'dark');
+    text-align: center;
+    cursor: pointer;
+  }
+
+}
+
+
+@media (min-width: 600px) {
+  .Signup {
+  
+    .container {
+      width: 600px;
+      // margin: auto;
+    }
+  }
+}

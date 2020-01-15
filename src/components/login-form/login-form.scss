@@ -1,0 +1,35 @@
+@import "../../variables.scss";
+
+.LoginForm {
+  
+  width: 100%;
+  // padding-left: .5rem;
+  // padding-right: .5rem;
+
+  .InputField {
+    padding-bottom: 1rem;
+  }
+
+  .register {
+    margin-top: 1rem;
+    text-align: center;
+
+    p {
+      cursor: pointer;
+      color: #526753;
+    }
+
+  }
+
+  .error-feedback{
+    min-height: 18px;
+    color: color('danger','base');
+    text-align: center;
+  }
+}
+
+@media (min-width: 600px) {
+  .LoginForm {
+    // max-width: 400px;
+  }
+}
