@@ -5,7 +5,8 @@ import { authenticate } from '../../actions/auth.actions'
 
 import {
   DASHBOARD_ROUTE,
-  REGISTER_ROUTE
+  REGISTER_ROUTE,
+  EMAIL_REGEX
 } from "../../constants"
 
 import './login-form.scss';
@@ -55,19 +56,39 @@ function LoginForm({
   }, [isFetching, isLoading, error])
 
   const handleChange = event => {
+     
+    
     const { value, name } = event.target;
     setCredentials({ ...userCredentials, [name]: value })
   }
 
-  const handleSubmit = async e => {
+  const handleSubmit =  e => { 
+
     e.preventDefault();
     setError(null)
     setLoading(true)
     authenticate(userCredentials)
+    validate()
   }
 
   const goToRegister = () => {
     history.push(REGISTER_ROUTE)
+  }
+
+  const validate = () => {
+
+    const errors = {}
+
+    if(!userCredentials.email.length)
+      errors.email = "Obrigatório"
+    else if (!EMAIL_REGEX.test(userCredentials.email))
+      errors.email = "Email inválido"
+
+    if(!userCredentials.password.length)
+      errors.password = "Obrigatório"
+
+    return errors
+
   }
 
   return (
@@ -75,19 +96,23 @@ function LoginForm({
       <InputField
         name="email" 
         type="email" 
-        label="Email" 
+        label="Email"         
         onChange={handleChange}
+        required
       />
+      <p className="feedback">{validate().email}</p>
       <InputField
         name="password" 
         type="password"
         label="Senha" 
         onChange={handleChange}
+        required
       />
+      <p className="feedback">{validate().password}</p>
       <CustomButton 
         variant="gradient"
         type="submit"
-        disabled={isLoading}
+        disabled={isLoading || Object.keys(validate()).length}
       >
         {!isLoading
           ? "Login"
