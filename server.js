@@ -7,6 +7,9 @@ const routes = require('./routes.json');
 const axios = require('axios');
 const path = require('path');
 
+var port = process.env.PORT || 8080;
+
+
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
 
@@ -61,6 +64,6 @@ server.get('/*', (req,res) =>{
   res.sendFile('index.html', { root: __dirname + '/build' });
 });
 
-server.listen(8888, () => {
-  console.log('Server is running at http://localhost:8888')
+server.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`)
 })
