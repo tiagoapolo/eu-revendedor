@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory,  } from 'react-router-dom';
 import { getPurchases, deletePurchases } from '../../actions/purchases.actions'
 import { api } from "../../api"
 import { PURCHASE_NEW_ROUTE } from "../../constants"
@@ -16,7 +16,7 @@ import InputField from '../../components/input-field/input-field.component';
 import CustomButton from '../../components/custom-button/custom-buttom.component';
 
 const mapStateToProps = store => ({
-  userData: store.authState.userData,
+  userDataProps: store.authState.userData,
   purchases: store.purchasesState.purchases,
   isFetching: store.purchasesState.isFetching,
 });
@@ -29,30 +29,56 @@ const mapDispatchToProps = dispatch => {
 }
 
 function Dashboard ({
-  userData,
+  userDataProps,
   deletePurchases,
   getPurchases,
   isFetching,
   purchases,
 }) {
 
-  let history = useHistory()
+  let history = useHistory();
 
-  const [cashback, setCashback] = useState(0.00)
+  const [cashback, setCashback] = useState(0.00);
   const [seachFilter, setSeachFilter] = useState("");
+  const [userData, setUser] = useState({});
 
-  
   useEffect(() => {
     
-    if(!userData.id)
-      return
-    else if (isFetching)
+    if (!userData.id)
       return
 
     getPurchases(userData.id)   
     
     getCashback(userData.cpf)
-    .then(res => setCashback(res.body.credit))
+    .then(res => {
+      setCashback(res.body.credit)
+    })
+    .catch(err => console.error('err', err))
+
+  }, [])
+
+  
+  useEffect(() => {
+    
+    if (!userDataProps.id && !isFetching)
+      return
+
+    setUser(userDataProps);
+
+  }, [userDataProps])
+
+
+  useEffect(() => {
+    
+    if (!userData.id)
+      return
+
+    getPurchases(userData.id)   
+    
+    getCashback(userData.cpf)
+    .then(res => {
+      setCashback(res.body.credit)
+    })
     .catch(err => console.error('err', err))
 
   }, [userData])
