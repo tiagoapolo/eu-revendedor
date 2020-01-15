@@ -20,6 +20,7 @@ export const authReducer = (state = initialState, action) => {
     case AUTHENTICATING:
       return {
         ...state,
+        userData: {},
         isFetching: true,
         loggedIn: false,
       }
@@ -29,6 +30,7 @@ export const authReducer = (state = initialState, action) => {
         userData: action.newValue,
         isFetching: false,
         loggedIn: true,
+        error: null,
       }
 
     case FETCHING_USER:
@@ -55,6 +57,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         error: action.error,
+        userData: {},
         isFetching: false,
         loggedIn: false,
       }

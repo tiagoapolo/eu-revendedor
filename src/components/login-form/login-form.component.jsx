@@ -44,13 +44,26 @@ function LoginForm({
 
   useEffect(() => {
 
-    if(!isFetching && isLoading){      
+
+    if(!isFetching && isLoading) {
+      
+      if (error) {
+        
+        setTimeout(() => { 
+          setLoading(false);
+          
+        },1000) 
+
+        setError(error)
+
+        return
+      }
+      
       setTimeout(() => { 
         setLoading(false);
         history.push(DASHBOARD_ROUTE);
       },1000) 
-    } else if (error) {
-      setError(error)      
+      
     }
     
   }, [isFetching, isLoading, error])
@@ -67,8 +80,7 @@ function LoginForm({
     e.preventDefault();
     setError(null)
     setLoading(true)
-    authenticate(userCredentials)
-    validate()
+    authenticate(userCredentials)    
   }
 
   const goToRegister = () => {
