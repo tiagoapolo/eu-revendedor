@@ -2,9 +2,9 @@
 
 O app consiste em um um sistema para seus revendedores(as) cadastrarem suas compras e acompanhar o retorno de cashback de cada um.
 
-App: [https://eurevendedor.herokuapp.com/](https://eurevendedor.herokuapp.com/)
-
 Contato: tiagoapolo@gmail.com
+
+![App Screenshot](./app-image.png)
 
 #### Pré-requisitos
 
