@@ -65,6 +65,9 @@ export const authenticate = (creds) => {
       dispatch(afterAction(AUTHENTICATED, data))
     })
     .catch(err => {
+
+      removeCreds()
+
       if(err && err.response)
         dispatch(receivedError(err.response.data.message))
       else 
