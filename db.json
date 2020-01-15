@@ -23,23 +23,5 @@
     }
   ],
   "purchases": [
-    {
-      "id": "1",
-      "user_id": "910a0715-0cec-4fdf-92c6-4de583003f92",
-      "value": 1,
-      "date": "2020-01-15T11:57:52.508Z",
-      "cashback_percentage": 2,
-      "cashback": 1,
-      "status": "Reprovado"
-    },
-    {
-      "id": "31",
-      "user_id": "910a0715-0cec-4fdf-92c6-4de583003f92",
-      "value": 1,
-      "date": "2020-01-15T12:12:02.570Z",
-      "cashback_percentage": 0,
-      "cashback": 0,
-      "status": "Em validação"
-    }
   ]
 }

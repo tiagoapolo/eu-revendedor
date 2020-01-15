@@ -15,5 +15,16 @@
     .container{
       max-width: 480px;
     }
+
+    .bottom{ 
+
+      display: flex;
+      justify-content: center;  
+
+      .contact {
+        cursor: pointer;
+        text-align: center;
+      }
+    }
   }
 }
