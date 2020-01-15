@@ -27,19 +27,22 @@ server.use(jsonServer.bodyParser)
 
 server.post('/api/auth',(req, res) => {
 
-  const user = db.users.filter(u => u.email === req.body.email)
 
-  if(!user.length){
-    res.status(404).send({ user: null, success: false, message: "usuário não cadastrado" })
-
-  } else {
+  axios.get(`https://eurevendedor.herokuapp.com/api/users?email=${req.body.email}`)
+  .then(result => {
+    console.log('result.data', result.data)
     
-    if(user[0].password !== req.body.password){
-      res.status(401).send({ user: null, success: false, message: "credenciais inválidas" })
-    } else {
-      res.send({ ...user[0] })
-    }
-  }
+      if(!result.data || !result.data.length){
+        res.status(404).send({ user: null, success: false, message: "usuário não cadastrado" })
+    
+      } else if(req.body.password == result.data[0].password) {
+        res.send({ ...result.data[0] })
+      } else {        
+        res.status(401).send({ user: null, success: false, message: "credenciais inválidas" })
+      }
+    
+  })
+  .catch(e => res.status(500).send({ user: null, success: false, message: "Erro de autenticação" }))
 
 })
 
