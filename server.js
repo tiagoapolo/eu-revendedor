@@ -27,14 +27,15 @@ server.post('/api/auth',(req, res) => {
 
   axios.get(`http://localhost:8888/api/users?email=${req.body.email}`)
   .then(result => {
-  
+    console.log('result.data', result.data)
+    
       if(!result.data || !result.data.length){
         res.status(404).send({ user: null, success: false, message: "usuário não cadastrado" })
     
-      } else if(!req.body.password || !req.body.password !== result.data[0].password) {
-        res.status(401).send({ user: null, success: false, message: "credenciais inválidas" })
-      } else {
+      } else if(req.body.password == result.data[0].password) {
         res.send({ ...result.data[0] })
+      } else {        
+        res.status(401).send({ user: null, success: false, message: "credenciais inválidas" })
       }
     
   })
