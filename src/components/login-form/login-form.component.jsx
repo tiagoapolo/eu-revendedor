@@ -87,7 +87,7 @@ function LoginForm({
       <CustomButton 
         variant="gradient"
         type="submit"
-        disabled={isLoading}
+        disabled={isLoading || !userCredentials.password || !userCredentials.email}
       >
         {!isLoading
           ? "Login"

@@ -13,6 +13,13 @@
       "email": "teste@g.com",
       "password": "123123",
       "id": "aWUZAmM"
+    },
+    {
+      "name": "tester",
+      "cpf": "12231121212",
+      "email": "tester@gmail.com",
+      "password": "123123",
+      "id": "ShhjVX1"
     }
   ],
   "status": [

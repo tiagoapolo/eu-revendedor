@@ -1,6 +1,8 @@
 // server.js
 const jsonServer = require('json-server');
 const middlewares = jsonServer.defaults();
+const bcrypt = require('bcrypt');
+
 const db = require('./db.json');
 const express = require('express');
 const routes = require('./routes.json');
