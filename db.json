@@ -6,6 +6,13 @@
       "cpf": "12312312",
       "email": "tiagoapolo@gmail.com",
       "password": "teste"
+    },
+    {
+      "name": "tester",
+      "cpf": "12312310012",
+      "email": "teste@g.com",
+      "password": "123123",
+      "id": "aWUZAmM"
     }
   ],
   "status": [
@@ -22,6 +29,5 @@
       "name": "Aprovado"
     }
   ],
-  "purchases": [
-  ]
+  "purchases": []
 }

@@ -24,19 +24,21 @@ server.use(jsonServer.bodyParser)
 
 server.post('/api/auth',(req, res) => {
 
-  const user = db.users.filter(u => u.email === req.body.email)
 
-  if(!user.length){
-    res.status(404).send({ user: null, success: false, message: "usuário não cadastrado" })
-
-  } else {
+  axios.get(`http://localhost:8888/api/users?email=${req.body.email}`)
+  .then(result => {
+  
+      if(!result.data || !result.data.length){
+        res.status(404).send({ user: null, success: false, message: "usuário não cadastrado" })
     
-    if(user[0].password !== req.body.password){
-      res.status(401).send({ user: null, success: false, message: "credenciais inválidas" })
-    } else {
-      res.send({ ...user[0] })
-    }
-  }
+      } else if(!req.body.password || !req.body.password !== result.data[0].password) {
+        res.status(401).send({ user: null, success: false, message: "credenciais inválidas" })
+      } else {
+        res.send({ ...result.data[0] })
+      }
+    
+  })
+  .catch(e => res.status(500).send({ user: null, success: false, message: "Erro de autenticação" }))
 
 })
 
