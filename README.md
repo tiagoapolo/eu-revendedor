@@ -13,7 +13,7 @@ Contato: tiagoapolo@gmail.com
 - Node.JS (12.x) => [**Instalação**](https://nodejs.org/en/download/)
 - NPM (6.x)
 
-Obs.: O app não utiliza frameworks de stilo (e.g. Material, Boostrap, Bulma)
+Obs.: O app não utiliza frameworks de estilo (e.g. Material, Boostrap, Bulma)
 
 
 ## Passos para rodar localmente
