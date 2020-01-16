@@ -13,10 +13,10 @@ import { connect } from 'react-redux';
 const stdValue = { 
   id: '',  
   user_id: '',
-  value: 0,
+  value: '',
   date: new Date(),
-  cashback_percentage: 0,
-  cashback: 0,
+  cashback_percentage: '',
+  cashback: '',
   status: '',
 }
 

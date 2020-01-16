@@ -34,6 +34,9 @@
       border: none;
       border-radius: 0;
       border-bottom: 1px solid $muted-color;
+
+      box-shadow: none;
+
       &:focus {
         outline: none;
       }
