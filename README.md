@@ -13,6 +13,8 @@ Contato: tiagoapolo@gmail.com
 - Node.JS (12.x) => [**Instalação**](https://nodejs.org/en/download/)
 - NPM (6.x)
 
+Obs.: O app não utiliza frameworks de estilo (e.g. Material, Boostrap, Bulma)
+
 
 ## Passos para rodar localmente
 
@@ -42,43 +44,43 @@ Porta em uso: 8888
 
 Rotas
 
-Autentica o usuário
+**Autentica o usuário**
 
 - POST /api/auth:
 
   - body: { email, password } 
 
-Retorna o saldo do cashback
+**Retorna o saldo do cashback**
 
 - GET /api/cashback:
   
   - query: cpf
 
-Retorna compras de um usuário (user_id)
+**Retorna compras de um usuário (user_id)**
 
 - GET /api/purchases:
   
   - query: user_id
 
 
-Retorna o saldo do cashback
+**Retorna o saldo do cashback**
 
 - GET /api/purchases:
   
   - query: user_id
 
-Retorna a lista de status disponíveis
+**Retorna a lista de status disponíveis**
 
 - GET /api/status:
   
 
-Retorna compras de um usuário (user_id)
+**Retorna compras de um usuário (user_id)**
 
 - GET /api/purchases:
   
   - query: user_id
 
-Registra compra de um usuário
+**Registra compra de um usuário**
 
 - POST /api/purchases:
   
@@ -91,7 +93,7 @@ Registra compra de um usuário
       - cashback
       - status  
 
-Edita compra de um usuário
+**Edita compra de um usuário**
 
 - PUT /api/purchases/:id :
 
@@ -106,7 +108,7 @@ Edita compra de um usuário
       - cashback
       - status  
 
-Deleta a compra de um usuário
+**Deleta a compra de um usuário**
 
 - DELETE /api/purchases/:id
 
