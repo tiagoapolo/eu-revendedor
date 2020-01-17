@@ -1,13 +1,13 @@
 import {
   AUTHENTICATING,
   AUTHENTICATED,
-  FETCHING_USER,
-  FETCHED_USER,
   LOGOUT,
-  RECEIVED_ERROR
+  RECEIVED_AUTH_ERROR,
+  RECEIVED_AUTH_ERROR_CLEAN
 } from '../constants';
 
-import { api } from '../api';
+import { Store } from '../store'
+
 import { saveCreds, removeCreds } from '../utils';
 
 const beforeAction = type => ({
@@ -20,8 +20,12 @@ const afterAction = (type, value) => ({
 });
 
 const receivedError = err => ({
-  type: RECEIVED_ERROR,
+  type: RECEIVED_AUTH_ERROR,
   error: err
+});
+
+export const cleanError = () => ({
+  type: RECEIVED_AUTH_ERROR_CLEAN,
 });
 
 
@@ -32,46 +36,39 @@ export const logout = () => {
   }
 }
 
-export const getUser = (id) => {
-  
-  return dispatch => {
-        
-    dispatch(beforeAction(FETCHING_USER));
-
-    return api.get(`/users/${id}`)
-    .then(res => res.data)
-    .then(data => {
-      dispatch(afterAction(FETCHED_USER, data))
-    })
-    .catch(err => {
-      if(err && err.response)
-        dispatch(receivedError(err.response.data.message))
-      else 
-        dispatch(receivedError("Falha ao buscar usuário"))
-    })
-  }
-};
+export const setUserData = (user) => ({
+  type: AUTHENTICATED,
+  newValue: user
+})
 
 export const authenticate = (creds) => {
   
   return dispatch => {
         
+    removeCreds();
     dispatch(beforeAction(AUTHENTICATING));
 
-    return api.post('/auth', creds)
-    .then(res => res.data)
-    .then(data => {
-      saveCreds(data.id)
-      dispatch(afterAction(AUTHENTICATED, data))
+    return new Promise((resolve, reject) => {      
+
+      if(!creds.email || !creds.password)
+        reject("Credenciais inválidas")    
+        
+      const user = Store.getState().usersState.users.filter(user => user.email === creds.email)
+      
+      if(!user.length)
+        reject("Usuário não encontrado")
+      if(creds.password !== user[0].password)
+        reject("Credenciais inválidas")        
+
+      resolve(user[0])
+
+    })
+    .then(user => {
+      saveCreds(user.email)
+      dispatch(afterAction(AUTHENTICATED, user))
     })
     .catch(err => {
-
-      removeCreds()
-
-      if(err && err.response)
-        dispatch(receivedError(err.response.data.message))
-      else 
-        dispatch(receivedError("Autenticação sem sucesso"))
+      dispatch(receivedError(err))
     })
   }
 };

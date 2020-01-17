@@ -8,9 +8,11 @@ import {
   UPDATED_PURCHASES,
   DELETING_PURCHASES,
   DELETED_PURCHASES,
+  RECEIVED_PURCHASE_ERROR_CLEAN,
 } from '../constants';
 
 import { api } from '../api';
+import { Store } from '../store';
 
 const beforeAction = type => ({
   type: type
@@ -26,21 +28,28 @@ const receivedError = err => ({
   error: err
 });
 
+export const cleanError = () => ({
+  type: RECEIVED_PURCHASE_ERROR_CLEAN,
+});
+
 export const getPurchases = () => {
   
   return dispatch => {
         
     dispatch(beforeAction(FETCHING_PURCHASES));
 
-    return api.get(`/purchases`)
-    .then(res => res.data)
-    .then(data => {
-      dispatch(afterAction(FETCHED_PURCHASES,data))
+    return new Promise(resolve => {
+
+      const purchases = Store.getState().purchasesState.purchases
+
+      resolve(purchases)
+      
     })
-    .catch(err => {
-      // Due to JSON-SERVER not giving specific error
-      // messages I'll deliver a generic one
-      dispatch(receivedError("Falha ao buscar compras"))
+    .then(p => {
+      dispatch(afterAction(FETCHED_PURCHASES,p))
+    })
+    .catch(err => {      
+      dispatch(receivedError(err))
     })
   }
 };
@@ -51,15 +60,20 @@ export const addPurchases = (body) => {
         
     dispatch(beforeAction(ADD_PURCHASES));
 
-    return api.post(`/purchases`, body)
-    .then(res => res.data)
-    .then(data => {
-      dispatch(afterAction(ADDED_PURCHASES, data))
+    return new Promise((resolve, reject) => {
+
+      const p = Store.getState().purchasesState.purchases.filter(purchase => purchase.id === body.id)      
+      if(p.length)
+        reject("Código de compra já cadastrado")      
+
+      resolve(p[0])
+
+    })
+    .then(p => {
+      dispatch(afterAction(ADDED_PURCHASES, body))
     })
     .catch(err => {
-      // Due to JSON-SERVER not giving specific error
-      // messages I'll deliver a generic one
-      dispatch(receivedError("Falha ao criar compra"))
+      dispatch(receivedError(err))
     })
   }
 };
@@ -70,15 +84,23 @@ export const updatePurchases = (purchase) => {
         
     dispatch(beforeAction(UPDATING_PURCHASES));
 
-    return api.put(`/purchases/${purchase.id}`, purchase)
-    .then(res => res.data)
+    dispatch(beforeAction(ADD_PURCHASES));
+
+    return new Promise((resolve, reject) => {
+
+      const p = Store.getState().purchasesState.purchases.filter(purchase => purchase.id === purchase.id)      
+      
+      if(!p.length)
+        reject("Compra não cadastrada")      
+
+      resolve(purchase)
+
+    })
     .then(data => {
-      dispatch(afterAction(UPDATED_PURCHASES, purchase))
+      dispatch(afterAction(UPDATED_PURCHASES, data))
     })
     .catch(err => {
-      // Due to JSON-SERVER not giving specific error
-      // messages I'll deliver a generic one
-      dispatch(receivedError("Falha ao atualizar a compra"))
+      dispatch(receivedError(err))
     })
   }
 };
@@ -89,15 +111,21 @@ export const deletePurchases = (id) => {
         
     dispatch(beforeAction(DELETING_PURCHASES));
 
-    return api.delete(`/purchases/${id}`)
-    .then(res => res.data)
+    return new Promise((resolve, reject) => {
+
+      const p = Store.getState().purchasesState.purchases.filter(purchase => purchase.id === id)   
+            
+      if(!p.length)
+        reject("Compra não cadastrada")      
+
+      resolve(id)
+
+    })
     .then(data => {
-      dispatch(afterAction(DELETED_PURCHASES, id))
+      dispatch(afterAction(DELETED_PURCHASES, data))
     })
     .catch(err => {
-      // Due to JSON-SERVER not giving specific error
-      // messages I'll deliver a generic one
-      dispatch(receivedError("Falha ao delete a compra"))
+      dispatch(receivedError(err))
     })
   }
 };

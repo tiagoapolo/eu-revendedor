@@ -44,7 +44,7 @@ function RouteGuard({ component: Component, path, exact }) {
         !!isAuthed
         ? (
           <>
-            <Navbar userId={isAuthed}/>
+            <Navbar isAuthed={isAuthed}/>
             <Component {...props} />
           </>
         )

@@ -16,7 +16,10 @@ export const AUTHENTICATING = "AUTHENTICATING";
 export const AUTHENTICATED = "AUTHENTICATED";
 export const FETCHING_USER = "FETCHING_USER";
 export const FETCHED_USER = "FETCHED_USER";
+export const ADDING_USER = "ADDING_USER";
+export const ADDED_USER = "ADDED_USER";
 export const LOGOUT = "LOGOUT";
+export const ALERT = "ALERT";
 
 export const FETCHING_PURCHASES = "FETCHING_PURCHASES";
 export const FETCHED_PURCHASES = "FETCHED_PURCHASES";
@@ -31,4 +34,23 @@ export const DELETING_PURCHASES = "DELETING_PURCHASES";
 export const DELETED_PURCHASES = "DELETED_PURCHASES";
 
 export const RECEIVED_PURCHASE_ERROR = "RECEIVED_PURCHASE_ERROR";
-export const RECEIVED_ERROR = "RECEIVED_ERROR";
+export const RECEIVED_PURCHASE_ERROR_CLEAN = "RECEIVED_PURCHASE_ERROR_CLEAN";
+export const RECEIVED_USERS_ERROR = "RECEIVED_USERS_ERROR";
+export const RECEIVED_USERS_ERROR_CLEAN = "RECEIVED_USERS_ERROR_CLEAN";
+export const RECEIVED_AUTH_ERROR = "RECEIVED_AUTH_ERROR";
+export const RECEIVED_AUTH_ERROR_CLEAN = "RECEIVED_AUTH_ERROR_CLEAN";
+
+export const status =  [
+  {
+    "id": 1,
+    "name": "Em validação"
+  },
+  {
+    "id": 2,
+    "name": "Reprovado"
+  },
+  {
+    "id": 3,
+    "name": "Aprovado"
+  }
+]

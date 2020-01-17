@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useHistory } from 'react-router-dom';
-import { getUser } from '../../actions/auth.actions'
+import { logout,setUserData } from '../../actions/auth.actions'
 
-import { removeCreds } from '../../utils'
 import { LOGIN_ROUTE, DEV_INFO_ROUTE } from '../../constants'
 
 import './navbar.scss'
@@ -10,42 +9,43 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = store => ({
   userData: store.authState.userData,
+  users: store.usersState.users,
   error: store.authState.error,
   loggedIn: store.authState.loggedIn,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    getUser: (args) => dispatch(getUser(args)),
+    logout: (args) => dispatch(logout(args)),
+    setUserData: (args) => dispatch(setUserData(args)),
   }
 }
 
 function Navbar({
-  getUser,
+  logout,
   userData,
   error,
-  userId
 }) {
 
   let history = useHistory();
 
-  const logout = () => {
-    removeCreds()
-    history.push(LOGIN_ROUTE);
-  }
 
   const devContact = () => {
     history.push(DEV_INFO_ROUTE);
   }
 
 
-  useEffect(() => {
-    if(!userId)
-      return
+  const goToLogin = () => {
+    logout()
+    history.push(LOGIN_ROUTE)
+    return
+  }
 
-    getUser(userId)
-    
-  }, [userId])
+  useEffect(() => {    
+    if(!userData.email) {
+      goToLogin()
+    } 
+  }, [userData])
 
   useEffect(() => {
     if(error) {
@@ -60,7 +60,7 @@ function Navbar({
       </div>
       <div className="action">        
         <span className="contact" onClick={devContact}>Contato Dev</span>
-        <span className="logout" onClick={logout}>
+        <span className="logout" onClick={goToLogin}>
           Logout
           <i className="fas fa-sign-out-alt"></i>
         </span>

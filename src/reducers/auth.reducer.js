@@ -2,15 +2,20 @@ import {
   AUTHENTICATING,
   AUTHENTICATED,
   LOGOUT,
-  RECEIVED_ERROR,
-  FETCHING_USER,
-  FETCHED_USER
+  RECEIVED_AUTH_ERROR,
+  RECEIVED_PURCHASE_ERROR_CLEAN,
+  RECEIVED_AUTH_ERROR_CLEAN,
+
 } from '../constants';
+
+import { userDB }  from '../utils'
 
 const initialState = {
   userData: {},
   loggedIn: false,
-  isFetching: false,
+  loading: false,
+  loaded: false,
+  loaded: true,
   error: false
 };
 
@@ -21,46 +26,48 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         userData: {},
-        isFetching: true,
+        loading: true,
+        loaded: false,
         loggedIn: false,
-      }
+        error: null
+      }   
 
-    case AUTHENTICATED: return {
+    case AUTHENTICATED: 
+      return {
         ...state,
         userData: action.newValue,
-        isFetching: false,
+        loading: false,
+        loaded: true,
         loggedIn: true,
         error: null,
-      }
-
-    case FETCHING_USER:
-        return {
-          ...state,
-          isFetching: true,
-        }
-  
-    case FETCHED_USER: 
-        return {
-          ...state,
-          userData: action.newValue,
-          isFetching: false,
-        }      
+      }     
 
     case LOGOUT: return {
         ...state,
         userData: {},
-        isFetching: false,
+        loading: false,
+        loaded: false,
         loggedIn: false,
+        error: false,
       }
 
-    case RECEIVED_ERROR:
+    case RECEIVED_AUTH_ERROR:
       return {
         ...state,
         error: action.error,
         userData: {},
-        isFetching: false,
+        loading: false,
+        loaded: false,
         loggedIn: false,
       }
+
+    case RECEIVED_AUTH_ERROR_CLEAN:
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error: false,
+      }           
       
     default:
       return state;

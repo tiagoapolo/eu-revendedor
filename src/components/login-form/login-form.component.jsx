@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { authenticate } from '../../actions/auth.actions'
+import { authenticate, cleanError } from '../../actions/auth.actions'
+import { toastAction } from '../../actions/toast.actions'
 
 import {
   DASHBOARD_ROUTE,
@@ -14,7 +15,9 @@ import InputField from '../../components/input-field/input-field.component';
 import CustomButton from '../custom-button/custom-buttom.component';
 
 const mapStateToProps = store => ({
-  isFetching: store.authState.isFetching,
+  loggedIn: store.authState.loggedIn,
+  loading: store.authState.loading,
+  loaded: store.authState.loaded,
   userData: store.authState.userData,
   error: store.authState.error,
 });
@@ -23,12 +26,18 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => {
   return {
     authenticate: (args) => dispatch(authenticate(args)),
+    toastAction: (args) => dispatch(toastAction(args)),
+    cleanError: (args) => dispatch(cleanError(args)),
   }
 }
 
 function LoginForm({
-  isFetching,
+  loading,
+  loaded,
+  cleanError,
+  toastAction,
   authenticate,
+  userData,
   error,
 }) {
 
@@ -39,34 +48,30 @@ function LoginForm({
     password: ''
   });
 
-  const [errorMsg, setError] = useState(null);
-  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    
+    if (error && !loading && !loaded) {
+      console.log('error', error)
+
+      toastAction(error)
+      cleanError()
+      return
+    }
+
+  }, [error])
+
 
   useEffect(() => {
 
-
-    if(!isFetching && isLoading) {
-      
-      if (error) {
-        
-        setTimeout(() => { 
-          setLoading(false);
-          
-        },1000) 
-
-        setError(error)
-
-        return
-      }
-      
-      setTimeout(() => { 
-        setLoading(false);
-        history.push(DASHBOARD_ROUTE);
-      },1000) 
-      
-    }
+    if(!userData.email)
+      return
     
-  }, [isFetching, isLoading, error])
+    if(!error && loaded && !loading && userData.email) {    
+      history.push(DASHBOARD_ROUTE);      
+    }
+
+  }, [loading, loaded, userData])
 
   const handleChange = event => {
      
@@ -78,8 +83,6 @@ function LoginForm({
   const handleSubmit =  e => { 
 
     e.preventDefault();
-    setError(null)
-    setLoading(true)
     authenticate(userCredentials)    
   }
 
@@ -124,17 +127,14 @@ function LoginForm({
       <CustomButton 
         variant="gradient"
         type="submit"
-        disabled={isLoading || Object.keys(validate()).length}
+        disabled={loading || Object.keys(validate()).length}
       >
-        {!isLoading
+        {!loading
           ? "Login"
           : "Autenticando"}
       </CustomButton>
       <div className="register">
         <p onClick={goToRegister}>Cadastre-se aqui</p>
-      </div>
-      <div className="error-feedback">
-        <span>{errorMsg}</span>
       </div>      
     </form>
   )

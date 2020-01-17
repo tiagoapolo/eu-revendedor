@@ -7,12 +7,24 @@ import {
   UPDATING_PURCHASES,
   UPDATED_PURCHASES,
   DELETING_PURCHASES,
-  DELETED_PURCHASES
+  DELETED_PURCHASES,
+  RECEIVED_PURCHASE_ERROR_CLEAN
 } from '../constants';
+
+// {
+//   "id": "1",
+//   "user_id": "tiagoapolo@gmail.com",
+//   "value": 1,
+//   "date": "2020-01-17T13:31:45.094Z",
+//   "cashback_percentage": 1,
+//   "cashback": 1,
+//   "status": "Em validação"
+// }
 
 const initialState = {
   purchases: [],
-  isFetching: false,
+  loading: false,
+  loaded: false,
   error: null
 };
 
@@ -23,7 +35,9 @@ export const purchaseReducer = (state = initialState, action) => {
     case FETCHING_PURCHASES:
       return {
         ...state,
-        isFetching: true,
+        purchases: [],
+        loading: true,
+        loaded: true,
         error: null,
       }
 
@@ -31,14 +45,16 @@ export const purchaseReducer = (state = initialState, action) => {
       return {
         ...state,
         purchases: action.newValue,
-        isFetching: false,
+        loading: false,
+        loaded: true,
         error: null,
       }  
 
     case ADD_PURCHASES:
       return {
         ...state,
-        isFetching: true,
+        loading: true,
+        loaded: false,
         error: null,
       }
     
@@ -46,14 +62,16 @@ export const purchaseReducer = (state = initialState, action) => {
       return {
         ...state,
         purchases: (state.purchases || []).concat([action.newValue]),
-        isFetching: false,
+        loading: false,
+        loaded: true,
         error: null,
       }  
 
     case UPDATING_PURCHASES:
       return {
         ...state,
-        isFetching: true,
+        loading: true,
+        loaded: false,
         error: null,
       }
     
@@ -66,13 +84,15 @@ export const purchaseReducer = (state = initialState, action) => {
           else
             return action.newValue
         }),
-        isFetching: false,
+        loading: false,
+        loaded: true,
       }      
 
     case DELETING_PURCHASES:
       return {
         ...state,
-        isFetching: true,
+        loading: true,
+        loaded: false,
         error: false,
       }
     
@@ -80,15 +100,26 @@ export const purchaseReducer = (state = initialState, action) => {
       return {
         ...state,
         purchases: state.purchases.filter(p => p.id !== action.newValue),
-        isFetching: false,
+        loading: false,
+        loaded: true,
       }   
 
     case RECEIVED_PURCHASE_ERROR:
       return {
         ...state,
         error: action.error,
-        isFetching: false,
+        loading: false,
+        loaded: false,
       }
+
+    case RECEIVED_PURCHASE_ERROR_CLEAN:
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error: null,
+      }       
+  
       
     default:
       return state;

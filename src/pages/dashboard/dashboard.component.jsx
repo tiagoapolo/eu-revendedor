@@ -17,13 +17,12 @@ import CustomButton from '../../components/custom-button/custom-buttom.component
 
 const mapStateToProps = store => ({
   userDataProps: store.authState.userData,
-  purchases: store.purchasesState.purchases,
+  purchases: store.purchasesState.purchases.filter(p => p.user_id === store.authState.userData.email),
   isFetching: store.purchasesState.isFetching,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPurchases: (args) => dispatch(getPurchases(args)),
     deletePurchases: (args) => dispatch(deletePurchases(args)),
   }
 }
@@ -31,9 +30,8 @@ const mapDispatchToProps = dispatch => {
 function Dashboard ({
   userDataProps,
   deletePurchases,
-  getPurchases,
-  isFetching,
   purchases,
+  isFetching,
 }) {
 
   let history = useHistory();
@@ -44,44 +42,17 @@ function Dashboard ({
 
   useEffect(() => {
     
-    if (!userData.id)
-      return
-
-    getPurchases(userData.id)   
     
-    getCashback(userData.cpf)
+    if (!userDataProps.id)
+      return
+          
+    getCashback(userDataProps.cpf)
     .then(res => {
       setCashback(res.body.credit)
     })
     .catch(err => console.error('err', err))
 
   }, [])
-
-  
-  useEffect(() => {
-    
-    if (!userDataProps.id && !isFetching)
-      return
-
-    setUser(userDataProps);
-
-  }, [userDataProps])
-
-
-  useEffect(() => {
-    
-    if (!userData.id)
-      return
-
-    getPurchases(userData.id)   
-    
-    getCashback(userData.cpf)
-    .then(res => {
-      setCashback(res.body.credit)
-    })
-    .catch(err => console.error('err', err))
-
-  }, [userData])
 
   const goToNew = () => {
     history.push(PURCHASE_NEW_ROUTE)
@@ -162,8 +133,8 @@ function Dashboard ({
                       <TableRow>
                         <TableCell colspan="7">Sem compras até agora</TableCell>
                       </TableRow>)}        
-                  {purchases
-                    .filter(filterRule)
+                  {purchases                    
+                    .filter(filterRule)                    
                     .map((p, idx) => (
                       <TableRow 
                         key={`purchase_${idx}`}

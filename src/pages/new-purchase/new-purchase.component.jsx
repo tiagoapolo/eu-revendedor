@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
-import { updatePurchases, addPurchases } from '../../actions/purchases.actions'
+import { updatePurchases, addPurchases, cleanError } from '../../actions/purchases.actions'
 import { api } from '../../api'
 
 import './new-purchase.scss';
 
-import { DASHBOARD_ROUTE } from '../../constants'
+import { DASHBOARD_ROUTE, status } from '../../constants'
 import { Formik } from 'formik';
 import PurchaseForm from '../../components/purchase-form/purchase-form.component';
 import { connect } from 'react-redux';
+import { toastAction } from '../../actions/toast.actions';
 
 const stdValue = { 
   id: '',  
@@ -21,7 +22,9 @@ const stdValue = {
 }
 
 const mapStateToProps = store => ({
-  isFetching: store.purchasesState.isFetching,
+  loaded: store.purchasesState.loaded,
+  loading: store.purchasesState.loading,
+  purchases: store.purchasesState.purchases,
   purchaseError: store.purchasesState.error,
   userData: store.authState.userData,
 });
@@ -30,14 +33,19 @@ const mapDispatchToProps = dispatch => {
   return {
     addPurchases: (args) => dispatch(addPurchases(args)),
     updatePurchases: (args) => dispatch(updatePurchases(args)),
+    toastAction: (args) => dispatch(toastAction(args)),
+    cleanError: (args) => dispatch(cleanError(args)),
   }
 }
 
 function NewPurchase ({
   addPurchases,
-  getPurchases,
+  purchases,
   updatePurchases,
-  isFetching,
+  loaded,
+  toastAction,
+  cleanError,
+  loading,
   purchaseError,
   userData,
 }) {
@@ -45,45 +53,54 @@ function NewPurchase ({
   let history = useHistory();
   let match = useRouteMatch();
 
-  const [isLoading, setIsLoading] = useState(false);
   const [statusList, setStatusList] = useState([]);
   const [initialValues, setInitialValue] = useState(stdValue);
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    api.get('/status')
-    .then(res => res.data)
-    .then(data => setStatusList(data))
-    .catch(err => console.error(err))
-
+    setStatusList(status)
   }, [])
 
   useEffect(() => {
     if(match.params.item){
-      api.get(`/purchases/${match.params.item}`)
-      .then(res => res.data)
-      .then(data => {
+      const p = purchases.filter(purchase => purchase.id === match.params.item)[0] 
+
+      if(p){
         setIsEditing(true)
-        setInitialValue({...data, date: new Date(data.date) })
-      })
-      .catch(err => console.error(err))
+        setInitialValue({...p, date: new Date(p.date) })
+      } else {
+        history.push(DASHBOARD_ROUTE)
+      }
     }
   }, [match])
+  
 
   useEffect(() => {
-    if(isLoading && purchaseError) {
-      setIsLoading(false)
-      
-    } else if (!isFetching && isLoading){
-      setIsLoading(false)
-      goBack();
+
+    if(!loaded && !loading && purchaseError){
+      toastAction(purchaseError)
+      cleanError() 
+      setLoading(false)
+      return
     }
-  }, [isFetching, isLoading, purchaseError])
+
+
+  }, [purchaseError, loaded, loading])
+
+  useEffect(() => {
+
+    if(loaded && !loading && !purchaseError && isLoading){
+      setLoading(false)
+      goBack()
+
+      return
+    }
+
+  }, [purchaseError, loaded, loading])
 
   const validation = values => {
     const errors = {};
-
-    console.log(values)
 
     if (!values.id) {
       errors.id = 'Obrigatório';
@@ -114,14 +131,13 @@ function NewPurchase ({
           enableReinitialize={true}
           validate={validation}
           validateOnMount={true}        
-          onSubmit={(values, actions) => {
-  
-            setIsLoading(true);            
+          onSubmit={(values, actions) => {  
+
+            setLoading(true)
             if(isEditing)
               updatePurchases(values);
             else
-              addPurchases({ ...values, user_id: userData.id });
-
+              addPurchases({ ...values, user_id: userData.email });
           }}
         >
           {props => 
@@ -131,7 +147,7 @@ function NewPurchase ({
               onCancel={goBack}
               editing={isEditing}
             />}
-        </Formik>      
+        </Formik>    
       </div>
     </div>
   )
