@@ -3,12 +3,9 @@ import {
   AUTHENTICATED,
   LOGOUT,
   RECEIVED_AUTH_ERROR,
-  RECEIVED_PURCHASE_ERROR_CLEAN,
   RECEIVED_AUTH_ERROR_CLEAN,
 
 } from '../constants';
-
-import { userDB }  from '../utils'
 
 const initialState = {
   userData: {},
