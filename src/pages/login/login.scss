@@ -8,24 +8,26 @@
     margin: auto;
   }
 
+  .bottom{ 
+
+    display: flex;
+    justify-content: center;  
+    align-items: center;
+    text-align: center;
+
+    .contact {
+      cursor: pointer;
+      text-align: center;
+    }
+  }
+  
+
 }
 
 @media (min-width: 600px) {
   .Login {    
     .container{
       max-width: 480px;
-    }
-
-    .bottom{ 
-
-      display: flex;
-      justify-content: center;  
-      align-items: center;
-
-      .contact {
-        cursor: pointer;
-        text-align: center;
-      }
     }
   }
 }
