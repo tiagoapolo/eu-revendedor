@@ -27,7 +27,7 @@
     "concurrently": "^5.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node ./server",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
