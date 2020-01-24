@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: `http://localhost:8888/api`,
+  baseURL: `https://mdaqk8ek5j.execute-api.us-east-1.amazonaws.com/v1`,
   responseType: "json"
 });
